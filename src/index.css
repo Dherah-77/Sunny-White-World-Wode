@@ -1,52 +1,99 @@
+/* Remove default browser spacing */
 * {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
-  margin: 0;
 }
 
-header {
-  background-color: rgba(112, 112, 246, 0.724);
-  height: 10vh;
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f6fa;
+  color: #222;
+}
+
+/* Main dashboard */
+.first-page {
+  min-height: 100vh;
+  padding: 50px 30px;
+  text-align: center;
+}
+
+/* Dashboard heading */
+.first-page h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.first-page > p {
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* Four boxes */
+.dashboard-card {
+  background-color: white;
+  border: none;
+  border-radius: 15px;
+  min-height: 180px;
+  padding: 30px;
+
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  font-size: 1.5em;
-  font-weight: bold;
-}
-
-.form {
-  height: 10vh;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
-  gap: 1em;
-  border: 1px solid #000;
-  margin-top: 10px;
-  padding: 4px;
-}
-.del-btn {
-  background-color: transparent;
-  border: transparent;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.add-btn {
-  background-color: rgba(112, 112, 246, 0.724);
-  width: 100px;
-  border-radius: 10px;
-  border: transparent;
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
-.list {
-  width: 100vw;
+.dashboard-card h2 {
+  font-size: 1.4rem;
+}
+
+/* Dashboard layout */
+.first-page {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px;
-  background-color: rgba(128, 128, 128, 0.441);
-  color: rgba(65, 65, 229, 0.724);
-  height: 3em;
-  border: 1px solid #000;
-  border-radius: 1em;
-  margin-top: 10px;
+}
+
+.dashboard-card {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 20px;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .first-page {
+    padding: 70px 50px;
+  }
+
+  .dashboard-card {
+    max-width: none;
+    width: 300px;
+    margin-bottom: 0;
+  }
+
+  .first-page {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    gap: 25px;
+    justify-content: center;
+  }
+
+  .first-page h1,
+  .first-page > p {
+    grid-column: 1 / -1;
+  }
 }
