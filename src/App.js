@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import "./index.css";
 import Sales from "./Sales";
@@ -7,7 +7,15 @@ import Items from "./Items";
 import Activities from "./Activities";
 
 export default function App() {
-  const [page, setPage] = useState("dashboard");
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem("page");
+
+    return savedPage ? JSON.parse(savedPage) : "dashboard";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("page", JSON.stringify(page));
+  }, [page]);
 
   return (
     <>
