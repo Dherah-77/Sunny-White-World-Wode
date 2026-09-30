@@ -13,6 +13,10 @@
   margin: 0 auto 30px;
 }
 
+.header-text {
+  text-align: center;
+}
+
 .back-btn {
   border: none;
   background: white;
@@ -32,6 +36,7 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
   border-radius: 10%;
   border: none;
+  cursor: pointer;
 }
 
 .add-btn:hover {
@@ -120,7 +125,13 @@
   border-color: #222;
 }
 
+.quantity {
+  display: flex;
+  flex-direction: column;
+}
+
 .loose-units {
+  font-size: 1em;
 }
 
 .add-item-form button {
@@ -135,4 +146,62 @@
 
 .add-item-form button:hover {
   opacity: 0.85;
+}
+
+/* SALES PAGE */
+
+.sales-page {
+  min-height: 100vh;
+  padding: 40px 30px;
+  background-color: #f5f6fa;
+}
+
+.receipt-header {
+  text-align: center;
+  padding: 2em;
+}
+
+.recep-dets {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.recp-tot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 2.5em;
+}
+
+.comp-sale-btn {
+  font-size: 0.8rem;
+  width: 100px;
+  height: 40px;
+  background: white;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  border-radius: 10%;
+  border: none;
+  cursor: pointer;
+  margin-top: 1.2em;
+}
+
+/* BALANCE */
+
+.balance-info {
+  border-bottom: solid 1.5px #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.balance-info:hover {
+  background-color: #99999930;
+  border-radius: 10px;
 }

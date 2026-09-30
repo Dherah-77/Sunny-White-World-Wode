@@ -1,12 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./items.css";
 
-export default function Items({ onChange }) {
-  const [items, setItems] = useState(() => {
-    const savedItems = localStorage.getItem("items");
-
-    return savedItems ? JSON.parse(savedItems) : [];
-  });
+export default function Items({ onChange, items, setItems }) {
   const [search, setSearch] = useState("");
   const [form, setForm] = useState(false);
   const [productName, setProductName] = useState("");
@@ -17,17 +12,13 @@ export default function Items({ onChange }) {
   const [mainPrice, setMainPrice] = useState("");
   const [smallPrice, setSmallPrice] = useState("");
 
-  useEffect(() => {
-    localStorage.setItem("items", JSON.stringify(items));
-  }, [items]);
-
   function handleAddItem() {
     const newItem = {
       name: productName,
-      mainQuantity: mainQuantity,
+      mainQuantity: Number(mainQuantity),
       mainUnit: mainUnit,
       smallUnit: smallUnit,
-      unitsPerMain: unitsPerMain,
+      unitsPerMain: Number(unitsPerMain),
       mainPrice: Number(mainPrice),
       smallPrice: Number(smallPrice),
       looseSmallUnits: 0,
@@ -64,7 +55,7 @@ export default function Items({ onChange }) {
           ←
         </button>
 
-        <div>
+        <div className="header-text">
           <h1>Items</h1>
           <p>Manage your inventory</p>
           <p>
@@ -86,7 +77,7 @@ export default function Items({ onChange }) {
         filteredItems.map((item) => (
           <div className="item-info" key={item.id}>
             <h3>{item.name}</h3>
-            <span>
+            <span className="quantity">
               <p>
                 {" "}
                 {item.mainQuantity} {item.mainUnit}
@@ -107,7 +98,7 @@ export default function Items({ onChange }) {
           </div>
         ))
       ) : (
-        <p className="no-item">No item found 🔎</p>
+        <p className="no-item">Item not available 🔎</p>
       )}
 
       {form && (
@@ -137,6 +128,8 @@ export default function Items({ onChange }) {
             <option value="Cartons">Cartons</option>
             <option value="Bags">Bags</option>
             <option value="Rolls">Rolls</option>
+            <option value="Drums">Drums</option>
+            <option value="Buckets">Buckets</option>
           </select>
 
           <label htmlFor="main-quantity">Quantity:</label>
@@ -158,7 +151,7 @@ export default function Items({ onChange }) {
             <option value="">Select unit</option>
             <option value="Packets">Packets</option>
             <option value="Pieces">Pieces</option>
-            <option value="Bags">Bags</option>
+            <option value="Sachets">Sachets</option>
             <option value="Rolls">Rolls</option>
             <option value="lbs">lbs</option>
             <option value="kg">kg</option>
