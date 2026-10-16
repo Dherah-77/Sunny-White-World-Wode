@@ -151,6 +151,7 @@ export default function Items({ onChange, items, setItems }) {
             <option value="">Select unit</option>
             <option value="Packets">Packets</option>
             <option value="Pieces">Pieces</option>
+            <option value="Galls">Gall</option>
             <option value="Sachets">Sachets</option>
             <option value="Rolls">Rolls</option>
             <option value="lbs">lbs</option>

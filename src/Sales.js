@@ -44,6 +44,7 @@ export default function Sales({ items, setItems, onChange }) {
     setQuantity("");
     setSearch("");
     setPrice("");
+    setUnit();
   }
 
   function handleDeleteItem(id) {
@@ -67,6 +68,10 @@ export default function Sales({ items, setItems, onChange }) {
   }
 
   function completeSale() {
+    if (!name.trim()) {
+      return;
+    }
+
     const sale = {
       name: name,
       date: new Date(),
@@ -75,7 +80,17 @@ export default function Sales({ items, setItems, onChange }) {
       items: receiptItems,
       total: total,
       paid: Number(paid),
-      balance: total - Number(paid),
+      balance: ovrTot - Number(paid),
+      payments:
+        Number(paid) > 0
+          ? [
+              {
+                amount: Number(paid),
+                date: new Date(),
+                balance: ovrTot - Number(paid),
+              },
+            ]
+          : [],
     };
 
     const savedSales = localStorage.getItem("sales");
@@ -135,6 +150,21 @@ export default function Sales({ items, setItems, onChange }) {
     setPaid("");
   }
 
+  function getOldBal() {
+    const savedSales = localStorage.getItem("sales");
+    const sales = savedSales ? JSON.parse(savedSales) : [];
+
+    const oldSales = sales.filter(
+      (savedSale) =>
+        name.trim().toLowerCase() === savedSale.name.trim().toLowerCase() &&
+        address.trim().toLowerCase() === savedSale.address.trim().toLowerCase(),
+    );
+
+    const latestSale = oldSales[oldSales.length - 1];
+
+    return latestSale ? latestSale.balance : 0;
+  }
+
   useEffect(() => {
     localStorage.setItem("receiptItems", JSON.stringify(receiptItems));
   }, [receiptItems]);
@@ -149,6 +179,10 @@ export default function Sales({ items, setItems, onChange }) {
     const price = Number(receiptItem.price);
     return sum + receiptItem.quantity * price;
   }, 0);
+
+  const oldBalance = getOldBal();
+
+  const ovrTot = oldBalance + total;
 
   return (
     <div className="sales-page">
@@ -181,6 +215,11 @@ export default function Sales({ items, setItems, onChange }) {
                     {item.mainQuantity} {""}
                     {item.mainUnit}
                   </p>
+                  {item.looseSmallUnits > 0 && (
+                    <p className="loose-unit">
+                      {item.looseSmallUnits} {""} {item.smallUnit}
+                    </p>
+                  )}
                 </span>
                 <button
                   className="add-btn"
@@ -228,6 +267,7 @@ export default function Sales({ items, setItems, onChange }) {
                 }
               }}
             >
+              <option value="Select unit">Select unit</option>
               <option value="Cartons">Cartons</option>
               <option value="Bags">Bags</option>
               <option value="Rolls">Rolls</option>
@@ -236,6 +276,7 @@ export default function Sales({ items, setItems, onChange }) {
               <option value="Pieces">Pieces</option>
               <option value="Sachets">Sachets</option>
               <option value="Rolls">Rolls</option>
+              <option value="Galls">Galls</option>
               <option value="Buckets">Buckets</option>
               <option value="lbs">lbs</option>
               <option value="kg">kg</option>
@@ -317,6 +358,8 @@ export default function Sales({ items, setItems, onChange }) {
       </div>
       <div className="recp-tot">
         <p>Total: ₦{total.toLocaleString()}</p>
+        <p>Old balance: ₦{oldBalance.toLocaleString()}</p>
+        <p>Overall total:₦{ovrTot.toLocaleString()}</p>
         <p>
           <button className="add-btn">Paid:</button>{" "}
           <input
@@ -325,7 +368,7 @@ export default function Sales({ items, setItems, onChange }) {
             onChange={(e) => setPaid(e.target.value)}
           />{" "}
         </p>
-        <p> {`Balance: ₦${total - Number(paid)}`}</p>
+        <p> {`Balance: ₦${ovrTot - Number(paid)}`}</p>
         <button onClick={completeSale} className="comp-sale-btn">
           Complete Sales
         </button>
